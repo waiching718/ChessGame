@@ -1,19 +1,58 @@
 package chess;
 
+import java.util.*;
+
 public class Chess {
 
 	static String print[][] = new String[8][8];
 	static piece board[][] = new piece[8][8];
 	static String hashtag = "##";
 	static String fileString = " a  b  c  d  e  f  g  h";
+	static boolean blackmove = false;
 	
 	public static void main(String[] args) {
 		//intitialize the board
 		initialize();
 		printboard();
-
+		
+		Scanner input = new Scanner(System.in);
+		String receive;
+		
+		while(true){
+			//check if its a black move
+			if (blackmove){
+				blackmove = false;
+				System.out.println("Black's move: ");
+				receive = input.nextLine();
+				
+			}else{
+				blackmove = true;
+				System.out.println("White's move: ");
+				receive = input.nextLine();
+				System.out.println(inputparse(receive));
+			}
+		}
 	}
 	
+	
+	public static int inputparse(String input){
+		
+		if (input.matches("[a-h]\\d\\s[a-h]\\d")){ //"FileRank FileRank"
+			return 1;
+		}else if (input.matches("[a-h]\\d\\s[a-h]\\d\\s[QRBN]")){ //Promotion "FileRank FileRank [QRBN]"
+			return 2;
+		}else if(input.equals("resign")){ //resign
+			return 3;
+		}else if(input.matches("[a-h]\\d\\s[a-h]\\d\\sdraw\\?")){ //draw pending
+			return 4;
+		}else if(input.equals("draw")){ //draw
+			return 5;
+		}else{ //error
+			return 6;
+		}
+	}
+	
+	//initialize the board
 	public static void initialize(){
 		//white side
 		board[0][0] = new Rook(false,"wR");
