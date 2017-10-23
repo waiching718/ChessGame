@@ -14,6 +14,7 @@ public class Chess {
 		//intitialize the board
 		initialize();
 		printboard();
+		piece.board = board;
 		
 		Scanner input = new Scanner(System.in);
 		String receive;
@@ -24,17 +25,54 @@ public class Chess {
 				blackmove = false;
 				System.out.println("Black's move: ");
 				receive = input.nextLine();
+				System.out.println(inputparse(receive));
+				// more to go, not yet completed
 				
 			}else{
 				blackmove = true;
 				System.out.println("White's move: ");
-				receive = input.nextLine();
-				System.out.println(inputparse(receive));
+				receive = input.nextLine(); // take message
+				System.out.println(inputparse(receive)); // for testing show input corresponding message
+				takeAppropriateMove(receive); // take move
+				// more to go, not yet completed
 			}
 		}
 	}
 	
+	public static void takeAppropriateMove(String receive){
+		if(inputparse(receive) == 1){ //"filerank filerank"
+			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
+			piece movingPiece = board[rank][file]; //moving piece
+			
+			if(movingPiece == null){ //moving piece doesn't exist
+				printerrormessage();
+			}else{
+				file = receive.charAt(3) - 97; rank = receive.charAt(4) - 49; //which square moving towards
+				if(movingPiece.isvalidmove(file, rank)){ //valid move
+					movingPiece.move(file, rank); //move to the square
+				}else{ //not valid move;
+					printerrormessage();
+				}
+			}
+		}else if(inputparse(receive) == 2){
+			//promotion
+		}else if (inputparse(receive) == 3){
+			//resign
+		}else if (inputparse(receive) == 4){
+			//someone pending to draw
+		}else if (inputparse(receive) == 5){
+			//accept draw
+		}else{
+			//print error message
+		}
+	}
 	
+	//print error message
+	public static void printerrormessage(){
+		System.out.println("Illegal move, try again");
+	}
+	
+	//parse the input and return some int corresponding to some message
 	public static int inputparse(String input){
 		
 		if (input.matches("[a-h]\\d\\s[a-h]\\d")){ //"FileRank FileRank"
@@ -55,30 +93,30 @@ public class Chess {
 	//initialize the board
 	public static void initialize(){
 		//white side
-		board[0][0] = new Rook(false,"wR");
-		board[0][1] = new Knight(false,"wN");
-		board[0][2] = new Bishop(false,"wB");
-		board[0][3] = new Queen(false,"wQ");
-		board[0][4] = new King(false,"wK");
-		board[0][5] = new Bishop(false,"wB");
-		board[0][6] = new Knight(false,"wN");
-		board[0][7] = new Rook(false,"wR");
+		board[0][0] = new Rook(false,"wR",0,0);
+		board[0][1] = new Knight(false,"wN",1,0);
+		board[0][2] = new Bishop(false,"wB",2,0);
+		board[0][3] = new Queen(false,"wQ",3,0);
+		board[0][4] = new King(false,"wK",4,0);
+		board[0][5] = new Bishop(false,"wB",5,0);
+		board[0][6] = new Knight(false,"wN",6,0);
+		board[0][7] = new Rook(false,"wR",7,0);
 		
 		for(int i = 0; i<8; i++){
-			board[1][i] = new Pawn(false,"wp");
+			board[1][i] = new Pawn(false,"wp",i,1);
 		}
 		//black side
-		board[7][0] = new Rook(true,"bR");
-		board[7][1] = new Knight(true,"bN");
-		board[7][2] = new Bishop(true,"bB");
-		board[7][3] = new Queen(true,"bQ");
-		board[7][4] = new King(true,"bK");
-		board[7][5] = new Bishop(true,"bB");
-		board[7][6] = new Knight(true,"bN");
-		board[7][7] = new Rook(true,"bR");
+		board[7][0] = new Rook(true,"bR",0,7);
+		board[7][1] = new Knight(true,"bN",1,7);
+		board[7][2] = new Bishop(true,"bB",2,7);
+		board[7][3] = new Queen(true,"bQ",3,7);
+		board[7][4] = new King(true,"bK",4,7);
+		board[7][5] = new Bishop(true,"bB",5,7);
+		board[7][6] = new Knight(true,"bN",6,7);
+		board[7][7] = new Rook(true,"bR",7,7);
 		
 		for(int i = 0; i<8; i++){
-			board[6][i] = new Pawn(true,"bp");
+			board[6][i] = new Pawn(true,"bp",i,6);
 		}
 		
 		//initialize the print board
