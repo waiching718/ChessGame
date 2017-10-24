@@ -9,6 +9,7 @@ public class Chess {
 	static String hashtag = "##";
 	static String fileString = " a  b  c  d  e  f  g  h";
 	static boolean blackmove = false;
+	static boolean drawPending = false;
 	
 	public static void main(String[] args) {
 		//intitialize the board
@@ -23,14 +24,15 @@ public class Chess {
 			//check if its a black move
 			if (blackmove){
 				blackmove = false;
-				System.out.println("Black's move: ");
+				System.out.print("Black's move: ");
 				receive = input.nextLine();
 				System.out.println(inputparse(receive));
+				takeAppropriateMove(receive); // take move
 				// more to go, not yet completed
 				
 			}else{
 				blackmove = true;
-				System.out.println("White's move: ");
+				System.out.print("White's move: ");
 				receive = input.nextLine(); // take message
 				System.out.println(inputparse(receive)); // for testing show input corresponding message
 				takeAppropriateMove(receive); // take move
@@ -46,24 +48,56 @@ public class Chess {
 			
 			if(movingPiece == null){ //moving piece doesn't exist
 				printerrormessage();
+				blackmove = !blackmove; // same side moves
 			}else{
 				file = receive.charAt(3) - 97; rank = receive.charAt(4) - 49; //which square moving towards
 				if(movingPiece.isvalidmove(file, rank)){ //valid move
 					movingPiece.move(file, rank); //move to the square
 				}else{ //not valid move;
 					printerrormessage();
+					blackmove = !blackmove; // same side moves
 				}
 			}
 		}else if(inputparse(receive) == 2){
 			//promotion
 		}else if (inputparse(receive) == 3){
 			//resign
+			if (blackmove){ //white resign
+				System.out.println("Black wins");
+			}else{
+				System.out.println("White wins");
+			}
+			System.exit(0);//exit the program
+			
 		}else if (inputparse(receive) == 4){
 			//someone pending to draw
+			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
+			piece movingPiece = board[rank][file]; //moving piece
+			
+			if(movingPiece == null){ //moving piece doesn't exist
+				printerrormessage();
+				blackmove = !blackmove; // same side moves
+			}else{
+				file = receive.charAt(3) - 97; rank = receive.charAt(4) - 49; //which square moving towards
+				if(movingPiece.isvalidmove(file, rank)){ //valid move
+					movingPiece.move(file, rank); //move to the square
+					drawPending = true;//set drawPending to true
+				}else{ //not valid move;
+					printerrormessage();
+					blackmove = !blackmove; // same side moves
+				}
+			}
+			
 		}else if (inputparse(receive) == 5){
 			//accept draw
+			if(drawPending){
+				System.out.println("Draw");
+				System.exit(0);
+			}
+			
 		}else{
 			//print error message
+			System.out.println("Invalid input. Please try again.");
 		}
 	}
 	
@@ -75,15 +109,15 @@ public class Chess {
 	//parse the input and return some int corresponding to some message
 	public static int inputparse(String input){
 		
-		if (input.matches("[a-h]\\d\\s[a-h]\\d")){ //"FileRank FileRank"
+		if (input.matches("[a-h]\\d\\s[a-h]\\d\\s*")){ //"FileRank FileRank"
 			return 1;
-		}else if (input.matches("[a-h]\\d\\s[a-h]\\d\\s[QRBN]")){ //Promotion "FileRank FileRank [QRBN]"
+		}else if (input.matches("[a-h]\\d\\s[a-h]\\d\\s[QRBN]\\s*")){ //Promotion "FileRank FileRank [QRBN]"
 			return 2;
-		}else if(input.equals("resign")){ //resign
+		}else if(input.matches("resign\\s*")){ //resign
 			return 3;
-		}else if(input.matches("[a-h]\\d\\s[a-h]\\d\\sdraw\\?")){ //draw pending
+		}else if(input.matches("[a-h]\\d\\s[a-h]\\d\\sdraw\\?\\s*")){ //draw pending
 			return 4;
-		}else if(input.equals("draw")){ //draw
+		}else if(input.matches("draw\\s*")){ //draw
 			return 5;
 		}else{ //error
 			return 6;
