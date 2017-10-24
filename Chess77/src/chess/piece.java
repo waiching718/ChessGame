@@ -9,6 +9,7 @@ public abstract class piece {
 	static piece board[][];
 	
 	
+	
 	public piece(Boolean black, String piece, int file, int rank){
 		this.black = black;
 		this.piece = piece;

@@ -36,6 +36,7 @@ public class Chess {
 				receive = input.nextLine(); // take message
 				System.out.println(inputparse(receive)); // for testing show input corresponding message
 				takeAppropriateMove(receive); // take move
+				printboard(); //print board
 				// more to go, not yet completed
 			}
 		}
@@ -173,7 +174,7 @@ public class Chess {
 		
 		//printing
 		for(int a=7; a>-1; a--){
-			for(int b=7; b>-1; b--){
+			for(int b=0; b<8; b++){
 				System.out.print(print[a][b] + " ");
 			}
 			System.out.println((char)(a+1+48) + " "); // convert to corresponding ASCII and +1 for rank
