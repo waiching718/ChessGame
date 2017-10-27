@@ -48,7 +48,7 @@ public class Chess {
 			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
 			piece movingPiece = board[rank][file]; //moving piece
 			
-			if(movingPiece == null){ //moving piece doesn't exist
+			if(movingPiece == null || movingPiece.black == blackmove){ //moving piece doesn't exist
 				printerrormessage();
 				blackmove = !blackmove; // same side moves
 			}else{
@@ -60,8 +60,26 @@ public class Chess {
 					blackmove = !blackmove; // same side moves
 				}
 			}
-		}else if(inputparse(receive) == 2){
+		}else if(inputparse(receive) == 2){	
 			//promotion
+			char promotion = receive.charAt(6);
+			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
+			piece movingPiece = board[rank][file]; //moving piece
+			
+			if(movingPiece == null || movingPiece.black == blackmove || !(movingPiece instanceof Pawn)){ //moving piece doesn't exist
+				printerrormessage();
+				blackmove = !blackmove; // same side moves
+			}else{
+				file = receive.charAt(3) - 97; rank = receive.charAt(4) - 49; //which square moving towards
+				if(movingPiece.isvalidmove(file, rank)){ //valid move
+					((Pawn) movingPiece).promotion = promotion;// change the promotion char to user's input
+					movingPiece.move(file, rank); //move to the square
+				}else{ //not valid move;
+					printerrormessage();
+					blackmove = !blackmove; // same side moves
+				}
+			}
+			
 		}else if (inputparse(receive) == 3){
 			//resign
 			if (blackmove){ //white resign
@@ -71,12 +89,12 @@ public class Chess {
 			}
 			System.exit(0);//exit the program
 			
-		}else if (inputparse(receive) == 4){
+		}else if (inputparse(receive) == 4){	
 			//someone pending to draw
 			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
 			piece movingPiece = board[rank][file]; //moving piece
 			
-			if(movingPiece == null){ //moving piece doesn't exist
+			if(movingPiece == null || movingPiece.black == blackmove){ //moving piece doesn't exist
 				printerrormessage();
 				blackmove = !blackmove; // same side moves
 			}else{
@@ -100,7 +118,7 @@ public class Chess {
 		}else{
 			//print error message
 			System.out.println("Invalid input. Please try again.");
-			blackmove = !blackmove; // same side moves
+			//blackmove = !blackmove; // same side moves
 		}
 	}
 	
