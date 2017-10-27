@@ -28,6 +28,7 @@ public class Chess {
 				receive = input.nextLine();
 				System.out.println(inputparse(receive));
 				takeAppropriateMove(receive); // take move
+				printboard(); //print board
 				// more to go, not yet completed
 				
 			}else{
@@ -99,6 +100,7 @@ public class Chess {
 		}else{
 			//print error message
 			System.out.println("Invalid input. Please try again.");
+			blackmove = !blackmove; // same side moves
 		}
 	}
 	

@@ -11,7 +11,4 @@ public class Bishop extends piece{
 		return false;
 	}
 	
-	public void move(int file, int rank){
-		
-	}
 }

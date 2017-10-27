@@ -10,8 +10,5 @@ public class Rook extends piece{
 	public boolean isvalidmove(int file, int rank){
 		return false;
 	}
-	
-	public void move(int file, int rank){
-		
-	}
+
 }

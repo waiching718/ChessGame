@@ -10,7 +10,4 @@ public class Queen extends piece{
 		return false;
 	}
 	
-	public void move(int file, int rank){
-		
-	}
 }
