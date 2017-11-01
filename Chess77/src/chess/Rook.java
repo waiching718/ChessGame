@@ -2,6 +2,8 @@ package chess;
 
 public class Rook extends piece{
 	
+	boolean nevermoved = true;
+	
 	public Rook(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
@@ -73,5 +75,9 @@ public class Rook extends piece{
 		}// end of same rank
 		return false;
 	}//end of isvalidmove
-
+	
+	public void move(int file, int rank){
+		this.nevermoved = false;
+		super.move(file, rank);
+	}
 }

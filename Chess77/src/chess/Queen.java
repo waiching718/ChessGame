@@ -7,7 +7,7 @@ public class Queen extends piece{
 	}
 	
 	public boolean isvalidmove(int file, int rank){
-		if(this.file == file && this.rank == rank){ // remain the same place
+		/*if(this.file == file && this.rank == rank){ // remain the same place
 			return false;
 		}
 		// Below, Queen share the similar function with bishop and rook.
@@ -64,5 +64,7 @@ public class Queen extends piece{
 		}
 		return true;
 	}
-	
+	*/
+		return false;
+	}
 }
