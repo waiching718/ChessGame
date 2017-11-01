@@ -23,7 +23,7 @@ public class Queen extends piece{
 			y = -1;		  // the piece's location and destination.
 		}else{
 			y = 1;
-		}
+		}	
 		int row; 
 		int col; 
 		col = file + x; // The first position to check
