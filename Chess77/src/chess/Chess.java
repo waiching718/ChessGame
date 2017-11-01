@@ -10,6 +10,7 @@ public class Chess {
 	static String fileString = " a  b  c  d  e  f  g  h";
 	static boolean blackmove = false;
 	static boolean drawPending = false;
+	static boolean legalmove = true;
 	
 	public static void main(String[] args) {
 		//intitialize the board
@@ -28,6 +29,9 @@ public class Chess {
 				receive = input.nextLine();
 				System.out.println(inputparse(receive));
 				takeAppropriateMove(receive); // take move
+				if(legalmove){
+					Pawn.whiteforenpassant = null;
+				}
 				printboard(); //print board
 				// more to go, not yet completed
 				
@@ -37,6 +41,9 @@ public class Chess {
 				receive = input.nextLine(); // take message
 				System.out.println(inputparse(receive)); // for testing show input corresponding message
 				takeAppropriateMove(receive); // take move
+				if (legalmove){
+					Pawn.blackforenpassant = null;
+				}
 				printboard(); //print board
 				// more to go, not yet completed
 			}
@@ -55,6 +62,8 @@ public class Chess {
 				file = receive.charAt(3) - 97; rank = receive.charAt(4) - 49; //which square moving towards
 				if(movingPiece.isvalidmove(file, rank)){ //valid move
 					movingPiece.move(file, rank); //move to the square
+					legalmove = true;
+					return;
 				}else{ //not valid move;
 					printerrormessage();
 					blackmove = !blackmove; // same side moves
@@ -74,12 +83,13 @@ public class Chess {
 				if(movingPiece.isvalidmove(file, rank)){ //valid move
 					((Pawn) movingPiece).promotion = promotion;// change the promotion char to user's input
 					movingPiece.move(file, rank); //move to the square
+					legalmove = true;
+					return;
 				}else{ //not valid move;
 					printerrormessage();
 					blackmove = !blackmove; // same side moves
 				}
 			}
-			
 		}else if (inputparse(receive) == 3){
 			//resign
 			if (blackmove){ //white resign
@@ -102,12 +112,13 @@ public class Chess {
 				if(movingPiece.isvalidmove(file, rank)){ //valid move
 					movingPiece.move(file, rank); //move to the square
 					drawPending = true;//set drawPending to true
+					legalmove = true;
+					return;
 				}else{ //not valid move;
 					printerrormessage();
 					blackmove = !blackmove; // same side moves
 				}
 			}
-			
 		}else if (inputparse(receive) == 5){
 			//accept draw
 			if(drawPending){
@@ -118,8 +129,9 @@ public class Chess {
 		}else{
 			//print error message
 			System.out.println("Invalid input. Please try again.");
-			//blackmove = !blackmove; // same side moves
+			blackmove = !blackmove; // same side moves
 		}
+		legalmove = false;
 	}
 	
 	//print error message

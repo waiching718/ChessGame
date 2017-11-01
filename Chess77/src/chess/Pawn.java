@@ -3,6 +3,9 @@ package chess;
 public class Pawn extends piece{
 	
 	char promotion = 'Q';
+	static Pawn whiteforenpassant = null;
+	static Pawn blackforenpassant = null;
+	static boolean enpassant = false;
 	
 	public Pawn(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
@@ -15,6 +18,7 @@ public class Pawn extends piece{
 				if (this.rank == 6){ // first pawn move
 					if(rank - this.rank == -2){ // move two rank down
 						if (board[this.rank-1][file] == null && board[this.rank-2][file] == null){ // no pieces in between the move
+							blackforenpassant = this;
 							return true;
 						}
 					}else if(rank - this.rank == -1){ // first move but move one rank
@@ -33,8 +37,18 @@ public class Pawn extends piece{
 				if (rank - this.rank == -1){ //down one square
 					if(board[rank][file] != null && board[rank][file].black ==false){ //destination is a black piece
 						return true;
+					}else if(file == this.file+1){ // check for right enpassant
+						if (whiteforenpassant == board[this.rank][this.file+1]){ //check the pawn next to the moving pawn
+							enpassant = true;
+							return true;
+						}
+					}else if (file == this.file-1){ // check for left enpassant
+						if(whiteforenpassant == board[this.rank][this.file-1]){ //check the pawn next to the moving pawn
+							enpassant = true;
+							return true;
+						}
 					}
-				}
+				} 
 			}else{ //illegalmove
 				return false;
 			}//end of white pawn if 
@@ -45,6 +59,7 @@ public class Pawn extends piece{
 				if (this.rank == 1){ // first pawn move
 					if(rank - this.rank == 2){ // move two rank up
 						if (board[this.rank+1][file] == null && board[this.rank+2][file] == null){ // no pieces in between the move
+							whiteforenpassant = this;
 							return true;
 						}
 					}else if(rank - this.rank == 1){ // first move but move one rank
@@ -63,8 +78,18 @@ public class Pawn extends piece{
 				if (rank - this.rank == 1){ //up one square
 					if(board[rank][file] != null && board[rank][file].black ==true){ //destination is a black piece
 						return true;
+					}else if(file == this.file+1){ // check for right enpassant
+						if (blackforenpassant == board[this.rank][this.file+1]){ //check the pawn next to the moving pawn
+							enpassant = true;
+							return true;
+						}
+					}else if (file == this.file-1){ // check for left enpassant
+						if(blackforenpassant == board[this.rank][this.file-1]){ //check the pawn next to the moving pawn
+							enpassant = true;
+							return true;
+						}
 					}
-				}
+				}	
 			}else{ //illegalmove
 				return false;
 			}//end of white pawn if 
@@ -98,16 +123,28 @@ public class Pawn extends piece{
 			return;
 		}
 		
-		board[rank][file] = this; // move the piece to destination
-		board[this.rank][this.file] = null; //remove the original piece
-		Chess.print[rank][file] = this.piece; //update printboard with piece type
-		
-		if (this.rank % 2 == this.file % 2){ // add hastag when necessary
-			Chess.print[this.rank][this.file] = Chess.hashtag;
-		}else{
-			Chess.print[this.rank][this.file] = "  ";
+		if (enpassant){ //take the pawn out by enpassant
+			enpassant = false;
+			if(Chess.blackmove){ //white turn (reversed)
+				board[rank-1][file] = null;
+				if ((rank-1) % 2 == file % 2){ // add hastag when necessary
+					Chess.print[rank-1][file] = Chess.hashtag;
+				}else{
+					Chess.print[rank-1][file] = "  ";
+				}
+			}else{ //black turn
+				board[rank+1][file] = null;
+				if ((rank+1) % 2 == file % 2){ // add hastag when necessary
+					Chess.print[rank+1][file] = Chess.hashtag;
+				}else{
+					Chess.print[rank+1][file] = "  ";
+				}
+			}
 		}
-		this.rank = rank; //update rank
-		this.file = file; //update file
+		
+		super.move(file, rank); // call ordinary move
+		
+		
+		
 	}
 }
