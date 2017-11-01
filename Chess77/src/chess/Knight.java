@@ -6,22 +6,36 @@ public class Knight extends piece{
 		super(black,piece, file, rank);
 	}
 	
-	public boolean isvalidmove(int file, int rank){
-		if(rank - this.rank == -2 && file - this.file == 1){ // first check if the destination is valid for knight with 8 different ways.
+	public boolean isvalidmove(int file, int rank){		
+		// Checking 8 possible knight moves
+		if(Math.abs(this.rank - rank) == 2 && Math.abs(this.file - file) == 1){
+			if(this.black){ // Check if there is a same color piece on the destination square
+				if(board[rank][file] != null && board[rank][file].black == true){
+					return false;
+				}
+			}
+			
+			if(this.black== false){
+				if(board[rank][file] != null && board[rank][file].black != true){
+					return false;
+				}
+			}
 			return true;
-		}else if(rank - this.rank == -2 && file - this.file == -1){
-			return true;
-		}else if(rank - this.rank == 2 && file - this.file == 1){
-			return true;
-		}else if(rank - this.rank == 2 && file - this.file == -1){
-			return true;
-		}else if(rank - this.rank == 1 && file - this.file == -2){
-			return true;
-		}else if(rank - this.rank == -1 && file - this.file == -2){
-			return true;
-		}else if(rank - this.rank == 1 && file - this.file == 2){
-			return true;
-		}else if(rank - this.rank == -1 && file - this.file == 2){
+		}
+		
+		
+		if(Math.abs(this.rank - rank) == 1 && Math.abs(this.file - file) == 2){
+			if(this.black){ // Check if there is a same color piece on the destination square
+				if(board[rank][file] != null && board[rank][file].black == true){
+					return false;
+				}
+			}
+			
+			if(this.black== false){
+				if(board[rank][file] != null && board[rank][file].black != true){
+					return false;
+				}
+			}
 			return true;
 		}
 		return false;

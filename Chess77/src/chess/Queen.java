@@ -11,6 +11,19 @@ public class Queen extends piece{
 			return false;
 		}
 		// Below, Queen share the similar function with bishop and rook.
+		if(this.black){ // Check if there is a same color piece on the destination square
+			if(board[rank][file] != null && board[rank][file].black == true){
+				return false;
+			}
+		}
+		
+		if(this.black== false){
+			if(board[rank][file] != null && board[rank][file].black == false){
+				return false;
+			}
+		}
+		
+		//below, check if there is a blocking piece.
 		int x,y;
 		
 		if(this.file > file){ // x to be stored to 1 or -1 for checking every column between 
@@ -23,42 +36,32 @@ public class Queen extends piece{
 			y = -1;		  // the piece's location and destination.
 		}else{
 			y = 1;
-		}	
+		}
 		int row; 
 		int col; 
-		col = file + x; // The first position to check
+		col = this.file + x; // The first position to check
 		
-		if(this.black){ // For black bishop,checking diagonally 
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == true){ // Can not move there if that is a black piece
+		for(row = this.rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece diagonally.
+			if(board[row][col] != null){
 				return false;
-				}
-				col = col + x;
 			}
-		}else{ // For White bishop,checking diagonally
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == false){ // Can not move there if that is a white peice
-				return false;
+			col = col + x;
+		}
+		
+		if(this.rank == rank){
+			for(col = this.file + x; col <file; col= col + x){ // Check if there is a blocking piece horizontally and vertically.
+				if(board[rank][col] != null){
+					return false;
 				}
-				col = col + x;
 			}
 		}
-		/*if(this.black){ // For black bishop, checking horizontally and vertically 
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == true){ // Can not move there if that is a black piece
-				return false;
+		if(this.file == file){
+			for(row = this.rank + y; row < rank; row = row + y){
+				if(board[row][file] != null){
+					return false;
 				}
-				col = col + x;
 			}
-		}else{ // For White bishop, checking horizontally and vertically
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == false){ // Can not move there if that is a white peice
-				return false;
-				}
-				col = col + x;
-			}
-		}*/
-		
+		}
 		return true;
 	}
 	

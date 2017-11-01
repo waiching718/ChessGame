@@ -8,12 +8,20 @@ public class Bishop extends piece{
 	
 	
 	public boolean isvalidmove(int file, int rank){
-		if(file == this.file || rank == this.rank){ // have to move diagonally 
+		// If move correctly, diff of rank and file have to be the same
+		if(Math.abs(file -this.file) != Math.abs(rank-this.rank)){ 
 			return false;
 		}
+		if(this.black){ // Check if there is a same color piece on the destination square
+			if(board[rank][file] != null && board[rank][file].black == true){
+				return false;
+			}
+		}
 		
-		if(Math.abs(file -this.file) != Math.abs(rank-this.rank)){ // If move correctly, diff of rank and file have to be the same
-			return false;
+		if(this.black== false){
+			if(board[rank][file] != null && board[rank][file].black != true){
+				return false;
+			}
 		}
 		
 		//below, check if there is a blocking piece.
@@ -32,22 +40,13 @@ public class Bishop extends piece{
 		}
 		int row; 
 		int col; 
-		col = file + x; // The first position to check
+		col = this.file + x; // The first position to check
 		
-		if(this.black){ // For black bishop
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == true){ // Can not move there if that is a black piece
+		for(row = this.rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
+			if(board[row][col] != null){
 				return false;
-				}
-				col = col + x;
 			}
-		}else{ // For White bishop
-			for(row = rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
-				if(board[row][col] != null && board[row][col].black == false){ // Can not move there if that is a white peice
-				return false;
-				}
-				col = col + x;
-			}
+			col = col + x;
 		}
 		
 		return true;
