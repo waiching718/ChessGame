@@ -41,7 +41,7 @@ public class Queen extends piece{
 		int col; 
 		col = this.file + x; // The first position to check
 		
-		for(row = this.rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece diagonally.
+		for(row = this.rank + y; row < rank; row = row + y ){ // Check if there is a blocking piece diagonally.
 			if(board[row][col] != null){
 				return false;
 			}

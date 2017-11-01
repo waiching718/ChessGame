@@ -42,7 +42,7 @@ public class Bishop extends piece{
 		int col; 
 		col = this.file + x; // The first position to check
 		
-		for(row = this.rank + y; row < this.rank; row = row + y ){ // Check if there is a blocking piece.
+		for(row = this.rank + y; row < rank; row = row + y ){ // Check if there is a blocking piece.
 			if(board[row][col] != null){
 				return false;
 			}
