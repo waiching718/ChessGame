@@ -11,6 +11,8 @@ public class Chess {
 	static boolean blackmove = false;
 	static boolean drawPending = false;
 	static boolean legalmove = true;
+	static piece whiteKing;
+	static piece blackKing;
 	
 	public static void main(String[] args) {
 		//intitialize the board
@@ -27,26 +29,113 @@ public class Chess {
 				blackmove = false;
 				System.out.print("Black's move: ");
 				receive = input.nextLine();
-				System.out.println(inputparse(receive));
 				takeAppropriateMove(receive); // take move
 				if(legalmove){
 					Pawn.whiteforenpassant = null;
 				}
-				printboard(); //print board
+				
+				printboard();
+				int ret = check(false);
+				if(ret == 1){
+					System.out.println("Check");
+				}else if(ret == 2){
+					System.out.println("Black wins");
+					System.exit(0);
+				}
+				 //print board
 				// more to go, not yet completed
 				
 			}else{
 				blackmove = true;
 				System.out.print("White's move: ");
 				receive = input.nextLine(); // take message
-				System.out.println(inputparse(receive)); // for testing show input corresponding message
 				takeAppropriateMove(receive); // take move
 				if (legalmove){
 					Pawn.blackforenpassant = null;
 				}
 				printboard(); //print board
-				// more to go, not yet completed
+				int ret = check(false);
+				if(ret == 1){
+					System.out.println("Check");
+				}else if(ret == 2){
+					System.out.println("Black wins");
+				}
+				
+				
 			}
+		}
+	}
+	
+	public static int check(boolean black){
+		int file, rank;
+		if(black){ //black king
+			file = blackKing.file; rank = blackKing.rank; boolean check; boolean checkmate = true;
+			check = King.isChecked(rank, file);
+			
+			if(check == false){
+				return 0; //no check
+			}
+			board[rank][file] = null; //clear the original place
+			
+			for(int a = -1; a<2;a++){ //loop
+				for(int b = -1; b<2; b++){ //loop
+					
+					if(a == 0 && b == 0){ //same place
+						continue;
+					}
+					if((file+a) > -1 && (file+a) < 8 && (rank+b) > -1 && (rank+b) < 8){ //test for ischecked
+						piece temp = null;
+						if(board[rank+b][file+a] != null && board[rank+b][file+a].black){ //destination black piece
+							continue;
+						}else{ //null or opponent piece
+							temp = board[rank+b][file+a]; // store the piece in dest
+							board[rank+b][file+a] = blackKing; // push blackKingup
+							if(King.isChecked(rank+b, file+a) == false){ //no checkmate
+								board[rank+b][file+a] = temp;
+								board[rank][file]  = blackKing;
+								return 1; //check but not checkmate
+							}
+							board[rank+b][file+a] = temp;
+						}
+					}
+				}
+			}
+			board[rank][file] = blackKing;
+			return 2;
+		}else{ //white
+			file = whiteKing.file; rank = whiteKing.rank; boolean check; boolean checkmate = true;
+			check = King.isChecked(rank, file);
+			
+			if(check == false){
+				return 0; //no check
+			}
+			board[rank][file] = null; //clear the original place
+			
+			for(int a = -1; a<2;a++){ //loop
+				for(int b = -1; b<2; b++){ //loop
+					
+					if(a == 0 && b == 0){ //same place
+						continue;
+					}
+					if((file+a) > -1 && (file+a) < 8 && (rank+b) > -1 && (rank+b) < 8){ //test for ischecked
+						piece temp = null;
+						if(board[rank+b][file+a] != null && board[rank+b][file+a].black == false){ //destination black piece
+							continue;
+						}else{ //null or opponent piece
+							temp = board[rank+b][file+a]; // store the piece in dest
+							board[rank+b][file+a] = whiteKing; // push blackKingup
+							if(King.isChecked(rank+b, file+a) == false){ //no checkmate
+								board[rank+b][file+a] = temp;
+								board[rank][file]  = whiteKing;
+								return 1; //check but not checkmate
+							}
+							board[rank+b][file+a] = temp;
+						}
+					}
+				}
+			}
+			board[rank][file] = whiteKing;
+			return 2;
 		}
 	}
 	
@@ -165,6 +254,7 @@ public class Chess {
 		board[0][2] = new Bishop(false,"wB",2,0);
 		board[0][3] = new Queen(false,"wQ",3,0);
 		board[0][4] = new King(false,"wK",4,0);
+		whiteKing = board[0][4];
 		board[0][5] = new Bishop(false,"wB",5,0);
 		board[0][6] = new Knight(false,"wN",6,0);
 		board[0][7] = new Rook(false,"wR",7,0);
@@ -178,6 +268,7 @@ public class Chess {
 		board[7][2] = new Bishop(true,"bB",2,7);
 		board[7][3] = new Queen(true,"bQ",3,7);
 		board[7][4] = new King(true,"bK",4,7);
+		blackKing = board[7][4];
 		board[7][5] = new Bishop(true,"bB",5,7);
 		board[7][6] = new Knight(true,"bN",6,7);
 		board[7][7] = new Rook(true,"bR",7,7);
