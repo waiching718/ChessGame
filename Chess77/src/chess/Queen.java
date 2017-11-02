@@ -12,7 +12,7 @@ public class Queen extends piece{
 		}
 		// Below, Queen share the similar function with bishop and rook.
 		
-		if( (Math.abs(file -this.file) != Math.abs(rank-this.rank)) && ( (this.file != file) || (this.rank != rank)) ){ 
+		if( (Math.abs(file -this.file) != Math.abs(rank-this.rank)) && ( (this.file != file) && (this.rank != rank)) ){ 
 			return false;
 		}
 		
@@ -46,11 +46,14 @@ public class Queen extends piece{
 		int col; 
 		col = this.file + x; // The first position to check
 		
-		for(row = this.rank + y; row < rank; row = row + y ){ // Check if there is a blocking piece diagonally.
-			if(board[row][col] != null){
-				return false;
+		if ((Math.abs(file -this.file) == Math.abs(rank-this.rank))){
+			for(row = this.rank + y; row < rank; row = row + y ){ // Check if there is a blocking piece diagonally.
+				if(board[row][col] != null){
+					return false;
+				}
+				col = col + x;
 			}
-			col = col + x;
+			return true;
 		}
 		
 		if(this.rank == rank){

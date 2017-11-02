@@ -29,8 +29,9 @@ public class Chess {
 				blackmove = false;
 				System.out.print("Black's move: ");
 				receive = input.nextLine();
-				System.out.println("");
 				takeAppropriateMove(receive); // take move
+				System.out.println("");
+				
 				if(legalmove){
 					Pawn.whiteforenpassant = null;
 				}
@@ -50,17 +51,19 @@ public class Chess {
 				blackmove = true;
 				System.out.print("White's move: ");
 				receive = input.nextLine(); // take message
-				System.out.println("");
 				takeAppropriateMove(receive); // take move
+				System.out.println("");
+				
 				if (legalmove){
 					Pawn.blackforenpassant = null;
 				}
 				printboard(); //print board
-				int ret = check(false);
+				int ret = check(true);
 				if(ret == 1){
 					System.out.println("Check");
 				}else if(ret == 2){
-					System.out.println("Black wins");
+					System.out.println("White wins");
+					System.exit(0);
 				}
 				
 				
