@@ -7,10 +7,15 @@ public class Queen extends piece{
 	}
 	
 	public boolean isvalidmove(int file, int rank){
-		/*if(this.file == file && this.rank == rank){ // remain the same place
+		if(this.file == file && this.rank == rank){ // remain the same place
 			return false;
 		}
 		// Below, Queen share the similar function with bishop and rook.
+		
+		if( (Math.abs(file -this.file) != Math.abs(rank-this.rank)) && ( (this.file != file) || (this.rank != rank)) ){ 
+			return false;
+		}
+		
 		if(this.black){ // Check if there is a same color piece on the destination square
 			if(board[rank][file] != null && board[rank][file].black == true){
 				return false;
@@ -64,7 +69,5 @@ public class Queen extends piece{
 		}
 		return true;
 	}
-	*/
-		return false;
-	}
+	
 }
