@@ -1,9 +1,20 @@
 package chess;
 
 import java.util.*;
-
+/**This class represents Chess
+ * 
+ * @author Tien-Lun Li
+ *
+ */
 public class Chess {
-
+	/**
+	 * presents a chess board as a 8x8 2d array
+	 * board is filled with hashtag and white space
+	 * letters a to h for the board's file
+	 * blackmove to check what color's piece turn
+	 * drawPending to check if draw is pending
+	 * legalmove to check if it is a legal move
+	 */
 	static String print[][] = new String[8][8];
 	static piece board[][] = new piece[8][8];
 	static String hashtag = "##";
@@ -14,6 +25,10 @@ public class Chess {
 	static piece whiteKing;
 	static piece blackKing;
 	
+	/**Main method that run chess
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		//intitialize the board
 		initialize();
@@ -144,6 +159,11 @@ public class Chess {
 		}
 	}
 	
+	/**From receive, know what actions to do
+	 * Move, promote, resign, draw, error
+	 * 
+	 * @param receive
+	 */
 	public static void takeAppropriateMove(String receive){
 		if(inputparse(receive) == 1){ //"filerank filerank"
 			int file = receive.charAt(0) - 97; int rank = receive.charAt(1) - 49;
@@ -228,12 +248,17 @@ public class Chess {
 		legalmove = false;
 	}
 	
-	//print error message
+	/**Print message if any errors
+	 * 
+	 */
 	public static void printerrormessage(){
 		System.out.println("Illegal move, try again");
 	}
 	
-	//parse the input and return some int corresponding to some message
+	/**parse the input and return some int corresponding to some message
+	 * @param input
+	 * @return a int for 6 kinds of conditions
+	 */
 	public static int inputparse(String input){
 		
 		if (input.matches("[a-h]\\d\\s[a-h]\\d\\s*")){ //"FileRank FileRank"
@@ -251,7 +276,9 @@ public class Chess {
 		}
 	}
 	
-	//initialize the board
+	/**Initialize the board
+	 * Put white pieces and black pieces on their spot
+	 */
 	public static void initialize(){
 		//white side
 		board[0][0] = new Rook(false,"wR",0,0);
@@ -296,8 +323,10 @@ public class Chess {
 			}
 		}
 	}
-
-	//print the board
+	
+	/**Print the board 
+	 * Print the board after every valid moves
+	 */
 	public static void printboard(){
 		
 		//printing

@@ -1,11 +1,22 @@
 package chess;
-
+/** This is the Queen piece
+ * @author Wai Ching Li
+ */
 public class Queen extends piece{
-	
+	/**constructor of queen
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public Queen(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
-	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){
 		if(this.file == file && this.rank == rank){ // remain the same place
 			return false;

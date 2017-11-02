@@ -1,16 +1,33 @@
 package chess;
-
+/**This is the pawn piece
+ * 
+ * @author Tien-Lun Li
+ *
+ */
 public class Pawn extends piece{
-	
+	/**
+	 * present promotion
+	 * present enpassant
+	 */
 	char promotion = 'Q';
 	static Pawn whiteforenpassant = null;
 	static Pawn blackforenpassant = null;
 	static boolean enpassant = false;
-	
+	/**Constructor of pawn
+	 * 
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public Pawn(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
-	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){
 		
 		if(this.black){ //black pawn
@@ -97,7 +114,10 @@ public class Pawn extends piece{
 		}
 		
 	}//end of the function isvalidmove
-	
+	/**Special moves for pawn and promotion
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 */
 	public void move(int file, int rank){
 		
 		if (rank == 7 || rank == 0){ // qualified for promotion

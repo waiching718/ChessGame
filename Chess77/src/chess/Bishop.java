@@ -1,12 +1,25 @@
 package chess;
-
+/**This is the Bishop piece
+ *@author Wai Ching Li
+ *
+ */
 public class Bishop extends piece{
-	
+	/**Constructor of bishop
+	 * 
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public Bishop(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
 	
-	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){
 		// If move correctly, diff of rank and file have to be the same
 		if(Math.abs(file -this.file) != Math.abs(rank-this.rank)){ 

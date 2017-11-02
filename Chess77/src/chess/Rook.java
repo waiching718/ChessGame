@@ -1,14 +1,28 @@
 package chess;
-
+/**This is the rook piece
+ * 
+ * @author Tien-Lun Li
+ *
+ */
 public class Rook extends piece{
 	
 	boolean nevermoved = true;
-	
+	/**Constructor of rook
+	 * 
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public Rook(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
 	
-	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){
 		if(file == this.file && rank != this.rank){ //same file different ranks
 			if(rank > this.rank){ //destination is at the top
@@ -75,7 +89,9 @@ public class Rook extends piece{
 		}// end of same rank
 		return false;
 	}//end of isvalidmove
-	
+	/**Move method for rook
+	 * 
+	 */
 	public void move(int file, int rank){
 		this.nevermoved = false;
 		super.move(file, rank);

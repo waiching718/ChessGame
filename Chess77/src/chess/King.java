@@ -1,14 +1,32 @@
 package chess;
-
+/**This is the king piece
+ * 
+ * @author Tien-Lun Li
+ *
+ */
 public class King extends piece{
-	
+	/**nevermoved checks if king is never moved
+	 * castling checks if king is castling 
+	 * 
+	 */
 	boolean nevermoved = true;
 	boolean castling = false;
-	
+	/**Constructor of King
+	 * 
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public King(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
 	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){
 		
 		if(this.file == file && this.rank == rank){ // remain the same place
@@ -113,7 +131,9 @@ public class King extends piece{
 		
 		return false;
 	}
-	
+	/**
+	 * King's moves is different than other pieces
+	 */
 	public void move(int file, int rank){
 		this.nevermoved = false;
 		
@@ -141,7 +161,11 @@ public class King extends piece{
 			}
 		}
 	}
-	
+	/** King can be checked by other pieces
+	 * @param rank
+	 * @param file
+	 * @return a boolean that if King is checked 
+	 */
 	public static boolean isChecked(int rank, int file){
 		piece side = board[rank][file];
 		

@@ -1,11 +1,25 @@
 package chess;
-
+/**This is the knight piece
+ * 
+ * @author Wai Ching Li
+ *
+ */
 public class Knight extends piece{
-	
+	/**Constructor of knight 
+	 * 
+	 * @param black
+	 * @param piece
+	 * @param file
+	 * @param rank
+	 */
 	public Knight(Boolean black, String piece, int file, int rank){
 		super(black,piece, file, rank);
 	}
-	
+	/**Check if it is a valid move
+	 * @param file The destination file
+	 * @param rank The destination rank
+	 * @return A boolean that if it is a valid move
+	 */
 	public boolean isvalidmove(int file, int rank){		
 		// Checking 8 possible knight moves
 		if(Math.abs(this.rank - rank) == 2 && Math.abs(this.file - file) == 1){
