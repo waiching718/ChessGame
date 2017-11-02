@@ -27,7 +27,7 @@ public class Chess {
 	
 	/**Main method that run chess
 	 * 
-	 * @param args
+	 * @param args Run the main method
 	 */
 	public static void main(String[] args) {
 		//intitialize the board
@@ -162,7 +162,7 @@ public class Chess {
 	/**From receive, know what actions to do
 	 * Move, promote, resign, draw, error
 	 * 
-	 * @param receive
+	 * @param receive input to be parsed
 	 */
 	public static void takeAppropriateMove(String receive){
 		if(inputparse(receive) == 1){ //"filerank filerank"
@@ -256,7 +256,7 @@ public class Chess {
 	}
 	
 	/**parse the input and return some int corresponding to some message
-	 * @param input
+	 * @param input using regular expression to parse input
 	 * @return a int for 6 kinds of conditions
 	 */
 	public static int inputparse(String input){
