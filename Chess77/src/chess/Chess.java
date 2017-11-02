@@ -29,6 +29,7 @@ public class Chess {
 				blackmove = false;
 				System.out.print("Black's move: ");
 				receive = input.nextLine();
+				System.out.println("");
 				takeAppropriateMove(receive); // take move
 				if(legalmove){
 					Pawn.whiteforenpassant = null;
@@ -49,6 +50,7 @@ public class Chess {
 				blackmove = true;
 				System.out.print("White's move: ");
 				receive = input.nextLine(); // take message
+				System.out.println("");
 				takeAppropriateMove(receive); // take move
 				if (legalmove){
 					Pawn.blackforenpassant = null;
